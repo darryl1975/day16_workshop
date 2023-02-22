@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import sg.edu.nus.iss.day16_workshop.model.*;
 import java.util.*;
+import java.util.stream.*;
 
 @Repository
 public class PayloadRepo {
@@ -21,15 +22,23 @@ public class PayloadRepo {
     }
 
     public List<Payload> findAll() {
-        List<Payload> payloads = new ArrayList<Payload>(redisTemplate.opsForHash().entries(HASH_KEY_NAME).values()); //.values(HASH_KEY_NAME);
+        List<Payload> payloads = new
+        ArrayList<Payload>(redisTemplate.opsForHash().entries(HASH_KEY_NAME).values());
+        // //.values(HASH_KEY_NAME);
 
+        // List<Payload> payloads = redisTemplate
+        //         .opsForHash()
+        //         .values(HASH_KEY_NAME)
+        //         .stream()
+        //         .map(Payload.class::cast)
+        //         .collect(Collectors.toList());
         return payloads;
     }
 
     public Payload findPayloadById(Integer id) {
         return (Payload) redisTemplate.opsForHash().get(HASH_KEY_NAME, id);
     }
-    
+
     public String deletePayloadById(Integer id) {
         Long lResult = redisTemplate.opsForHash().delete(HASH_KEY_NAME, id);
 
@@ -39,7 +48,5 @@ public class PayloadRepo {
             return "Failed";
         }
     }
-
-
 
 }
