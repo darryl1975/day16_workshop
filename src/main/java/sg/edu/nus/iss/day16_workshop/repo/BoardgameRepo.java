@@ -26,6 +26,11 @@ public class BoardgameRepo {
 
     public Boardgame update(Boardgame boardgame) {
         Boolean result = redisTemplate.opsForValue().setIfPresent(boardgame.getId(), boardgame);
-        return boardgame;
+
+        if (result) {
+            return boardgame;
+        } else {
+            return null;
+        }
     }
 }
