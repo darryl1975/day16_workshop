@@ -24,4 +24,13 @@ public class BoardgameRepo {
         Boardgame bg = (Boardgame) redisTemplate.opsForValue().get(id);
         return bg;
     }
+
+    public Boardgame update(Boardgame boardgame) {
+        Boolean result = redisTemplate.opsForValue().setIfPresent(boardgame.getId(), boardgame);
+        return boardgame;
+    }
+
+    public List<Boardgame> findAll() {
+        return redisTemplate.opsForList().leftPop("boardgame", 0);
+    }
 }
