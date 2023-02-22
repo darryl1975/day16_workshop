@@ -1,7 +1,5 @@
 package sg.edu.nus.iss.day16_workshop.controller;
 
-import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,9 +45,4 @@ public class BoardgameController {
         return new ResponseEntity<Boardgame>(bg, HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Boardgame>> findAll() {
-        List<Boardgame> games = bgRepo.findAll();
-        return new ResponseEntity<List<Boardgame>>(games, HttpStatus.OK);
-    }
 }

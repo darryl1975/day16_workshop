@@ -12,10 +12,11 @@ import java.util.stream.*;
 public class BoardgameRepo {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<Integer, Boardgame> redisTemplate;
 
     public Boardgame save(Boardgame boardgame) {
-        redisTemplate.opsForValue().set(boardgame.getId(), boardgame);
+        ValueOperations<Integer, Boardgame> vo = redisTemplate.opsForValue();
+        vo.set(boardgame.getId(), boardgame);
 
         return boardgame;
     }
@@ -28,9 +29,5 @@ public class BoardgameRepo {
     public Boardgame update(Boardgame boardgame) {
         Boolean result = redisTemplate.opsForValue().setIfPresent(boardgame.getId(), boardgame);
         return boardgame;
-    }
-
-    public List<Boardgame> findAll() {
-        return redisTemplate.opsForList().leftPop("boardgame", 100);
     }
 }
