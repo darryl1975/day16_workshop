@@ -31,6 +31,6 @@ public class BoardgameRepo {
     }
 
     public List<Boardgame> findAll() {
-        return redisTemplate.opsForList().leftPop("boardgame", 0);
+        return redisTemplate.opsForList().leftPop("boardgame", 100);
     }
 }

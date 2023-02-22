@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.day16_workshop.controller;
 
+import java.util.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +33,23 @@ public class BoardgameController {
     @GetMapping("/{id}")
     public ResponseEntity<Boardgame> findById(@PathVariable Integer id) {
         Boardgame bg = bgRepo.findBoardgameById(id);
-        return new ResponseEntity<Boardgame>(bg, HttpStatus.OK);
+
+        if (bg == null) {
+            return new ResponseEntity<Boardgame>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<Boardgame>(bg, HttpStatus.OK);
+        }
     }
 
     @PutMapping
     public ResponseEntity<Boardgame> update(@RequestBody Boardgame boardgame) {
         Boardgame bg = bgRepo.update(boardgame);
         return new ResponseEntity<Boardgame>(bg, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Boardgame>> findAll() {
+        List<Boardgame> games = bgRepo.findAll();
+        return new ResponseEntity<List<Boardgame>>(games, HttpStatus.OK);
     }
 }
